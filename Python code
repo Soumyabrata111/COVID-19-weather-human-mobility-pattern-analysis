@@ -1,0 +1,13 @@
+import pandas as pd
+from scipy import stats
+# The file headings are in the following order <Temp>	<RH>	<SH>	<workplace>	<home>	<DailyCase>
+df = pd.read_csv('Processed_Table_v4.csv') #Processed_Table_v4 = the csv file that has to be created by the user to contain relevant data
+df1 = pd.DataFrame(stats.zscore(df, axis = 1))
+df2 = pd.read_csv('Processed_Table_v5.csv') #Processed_Table_v5 = a blank csv file to contain normalized data
+df2['Temp']=df1[0] # Average temperature
+df2['RH']=df1[1] # Average Relative Humidity
+df2['SH']=df1[2] # Average Specific Humidity
+df2['workplace']=df1[3] # Change in human mobillity pattern related to workplace
+df2['home']=df1[4]  # Change in human mobillity pattern related to residential stay 
+df2['DailyCase']=df1[5] # Daily number of registered cases
+df2.to_csv(r'<path to the place where user wants to save the normalized data file>\Normalised.csv', index = False)
